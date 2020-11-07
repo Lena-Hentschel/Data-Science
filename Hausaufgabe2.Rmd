@@ -72,8 +72,6 @@ ratings_best_books %>%
 ratings_best_books %>%
   select(`Book-Title`,`Year-Of-Publication`,`Book-Rating`) %>%
  filter(`Book-Rating`> 0) %>%
-  filter(`Year-Of-Publication` < 2020) 
+  filter(`Year-Of-Publication` < 2015) 
 ```
-
 Es kommt auf den Zeitpunkt der Datenerhebeung an. Wenn die Daten früh errhoben werden dann haben ältere, bekanntere Bücher auch die Chance mehr Ratings zu produzieren. Uunbekanntere ältere Bücher müssen nicht unbedingt mehr Ratings produzieren.
-
