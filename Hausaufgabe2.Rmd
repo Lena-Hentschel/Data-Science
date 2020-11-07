@@ -1,0 +1,79 @@
+---
+title: "Hausaufgabe 2 / Lena Hentschel"
+output:
+  html_document:
+    df_print: paged
+---
+
+# Libraries und Daten laden
+
+
+```{r}
+library(tidyverse)
+```
+```{r}
+BX_Book_Ratings <- read_delim("BX-Book-Ratings.csv", 
+    ";", escape_double = FALSE, trim_ws = TRUE)
+BX_Books <- read_delim("BX-Books.csv", 
+    ";", escape_double = FALSE, trim_ws = TRUE)
+BX_Users <- read_delim("BX-Users.csv", 
+    ";", escape_double = FALSE, trim_ws = TRUE)
+```
+Gibt es eine lineare Beziehung zwischen Anzahl Bücher pro Publisher und Anzahl Ratings, die die Bücher eines Publishers erhalten? 
+
+Tabellen für ANzahl der Bücher und ANzahl der Bücher pro Publisher
+Anzahl der Bücher: 
+```{r}
+Tabelle_Bücher <- BX_Books %>%
+  group_by(`Book-Title`) %>% 
+  summarise(Menge = n()) 
+```
+ Anzahl Bewertungen pro Publisher: 
+```{r}
+ratings_best_books <- BX_Book_Ratings %>%
+  left_join(BX_Books) 
+```
+
+```{r}
+Tabelle_Publisher <- ratings_best_books %>%
+  group_by(`Publisher`) %>%
+  summarise(Menge = n()) %>%
+  arrange(desc(Menge)) 
+```
+Join der Beiden erstellten Tabellen: 
+```{r}
+fertig <- Tabelle_Publisher %>%
+  left_join(Tabelle_Bücher)
+```
+Erstellung eines Plot-Diagramms mit Regressionslinie:
+```{r}
+fit <-lm(fertig$'Book-Rating') ~ (fertig$'Anzahl')
+```
+
+```{r}
+plot(fertig)
+abline(fit)
+```
+Auflistung der genauen Daten der Tabelle und des Diagramms. 
+```{r}
+summary(fit)
+```
+Leider war es mir nicht möglich zu prüfen ob mein Ansatz richtig ist und so eine Antwort auf die Frage zu liefern, da die R-Cloud ständig abgestürzt ist. Dennoch hoffe ich, dass der Ansatz der richtige ist. 
+
+Haben ältere Bücher mehr Ratings, weil sie mehr Zeit haben, um Ratings zu sammeln?
+Anzeigen der Tabelle mit den gebrauchten Daten:
+```{r}
+ratings_best_books %>%
+  select(`Book-Title`,`Year-Of-Publication`,`Book-Rating`) %>%
+ filter(`Book-Rating`> 0) %>%
+  filter(`Year-Of-Publication` > 1900) 
+```
+```{r}
+ratings_best_books %>%
+  select(`Book-Title`,`Year-Of-Publication`,`Book-Rating`) %>%
+ filter(`Book-Rating`> 0) %>%
+  filter(`Year-Of-Publication` < 2020) 
+```
+
+Es kommt auf den Zeitpunkt der Datenerhebeung an. Wenn die Daten früh errhoben werden dann haben ältere, bekanntere Bücher auch die Chance mehr Ratings zu produzieren. Uunbekanntere ältere Bücher müssen nicht unbedingt mehr Ratings produzieren.
+
