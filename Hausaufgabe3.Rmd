@@ -16,11 +16,22 @@ Laden der Daten
 ```{r}
 all <- read_csv("all.csv")
 ```
+Analyse, bei der nicht die Bücher, sondern die Autoren in den Transaktionen enthalten sind
 ```{r message=FALSE}
 i <- split(all$`Book-Author`,all$`User-ID`)
 txn <- as(i, "transactions")
 basket_rules <- apriori(txn, parameter = list(sup = 0.0005, conf = 0.001, minlen=2, target="rules"))
 ```
+```{r}
+myRules_Direct <- as(basket_rules, "data.frame")
+basket_rules_hi <- head(basket_rules, by ="lift",100)
+head(myRules_Direct, 20)
+```
+```{r}
+plot(basket_rules_hi, method="graph", main="Books")
+```
+Fällt Ihnen etwas in der Datenqualität auf?
+
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
 
 When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
