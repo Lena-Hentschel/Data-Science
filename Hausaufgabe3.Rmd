@@ -35,7 +35,6 @@ plot(basket_rules_hi, method="graph", main="Books")
 plot(basket_rules_hi, method="graph", main="Books", engine="interactive")
 ```
 Nr.2 Fällt Ihnen etwas in der Datenqualität auf?
-
 Oft werden dieselebn Autoren  gegenseitig erwähnt, z.B.: {Thomas Harris} => {Stephen King} und direkt in der darauffolgenden Zeile {Stephen King} => {Thomas Harris}. 
 
 Nr.3 Wie könnte man das mit regulären Ausdrücken beheben?
@@ -43,6 +42,5 @@ Nr.3 Wie könnte man das mit regulären Ausdrücken beheben?
 
 Nr. 4 Wie kann man nun noch sicherstellen, dass nur die Autoren weiterempfohlen werden, deren Bücher man auch (mehrheitlich) gut fand?
 
-"interactive")
-```
+
 Nr.5. Welche anderen Features wären sinnvoll?
