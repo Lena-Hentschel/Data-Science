@@ -17,7 +17,7 @@ Laden der Daten.
 all <- read_csv("all.csv")
 ```
 Nr1. Analyse, bei der nicht die Bücher, sondern die Autoren in den Transaktionen enthalten sind
-```{r message=FALSE}
+```{r}
 i <- split(all$`Book-Author`,all$`User-ID`)
 txn <- as(i, "transactions")
 basket_rules <- apriori(txn, parameter = list(sup = 0.005, conf = 0.001, minlen=2, target="rules"))
@@ -37,10 +37,32 @@ plot(basket_rules_hi, method="graph", main="Books", engine="interactive")
 Nr.2 Fällt Ihnen etwas in der Datenqualität auf?
 Oft werden dieselebn Autoren  gegenseitig erwähnt, z.B.: {Thomas Harris} => {Stephen King} und direkt in der darauffolgenden Zeile {Stephen King} => {Thomas Harris}. 
 
+Auch verweist ein Autor auf sich selbst. Der einzige Unterschied ist, dass einmal sein Name komplettt großgeschrieben ist {MICHAEL CRICHTON} und einmal kleingeschrieben {Michael Crichton}. 
+
 Nr.3 Wie könnte man das mit regulären Ausdrücken beheben?
+Zu der Problematik, dass Autoren auf sich selber verweisen könnte ein regulärer Ausdruck angewendet werden, der die Autoren, die komplett großgeschrieben sind entfernt. Es klappt nur irgendwie nicht ganz. 
 
-
+```{r}
+all <- all %>%  
+  mutate(`Book-Author`= str_remove (`Book-Author`, "[A-Z] *X*"))
+```
 Nr. 4 Wie kann man nun noch sicherstellen, dass nur die Autoren weiterempfohlen werden, deren Bücher man auch (mehrheitlich) gut fand?
-
+Um das Ergebnis zu erreichen sollten noch die Book.Ratings miteinbezogen werden. So ist es dann möglich Autoren mit dem besten bzw. mit einem guten Rating anzuzeigen. 
+```{r}
+j <- split(all$`Book-Author`,all$`Book-Rating` == 10)
+txn <- as(i, "transactions")
+basket_rules <- apriori(txn, parameter = list(sup = 0.005, conf = 0.001, minlen=2, target="rules"))
+```
+```{r}
+myRules_Direct <- as(basket_rules, "data.frame")
+basket_rules_hi <- head(basket_rules, by ="lift",100)
+head(myRules_Direct, 20)
+```
+```{r}
+plot(basket_rules_hi, method="graph", main="Books")
+```
+```{r}
+plot(basket_rules_hi, method="graph", main="Books", engine="interactive")
+```
 
 Nr.5. Welche anderen Features wären sinnvoll?
