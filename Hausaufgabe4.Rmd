@@ -151,5 +151,6 @@ pROC_obj <- roc(model.results.dt$survived,model.results.dt$`1`,
             plot=TRUE, auc.polygon=TRUE, max.auc.polygon=TRUE, grid=TRUE,
             print.auc=TRUE, show.thres=TRUE)
 ```
-
+Was sind die Unterschiede in der Performance der Algorithmen?
+Finden Sie Erklärungen dafür.
 
