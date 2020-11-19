@@ -30,13 +30,20 @@ titanic %>%
 
 ```{r}
 (titanic.df <- titanic %>%
-  select(survived,pclass,age,sex, embarked))
+  select(survived,pclass,age,sex, embarked,parch,sibsp))
 ```
 ```{r}
 titanic.df <- titanic.df %>%
   mutate(age = as.numeric(str_replace(age,",",".")))
 ```
-
+```{r}
+titanic.df <- titanic.df %>%
+  mutate(parch = as.numeric(str_replace(parch,",",".")))
+```
+```{r}
+titanic.df <- titanic.df %>%
+  mutate(sibsp = as.numeric(str_replace(sibsp,",",".")))
+```
 ```{r}
 titanic.df <- na.omit(titanic.df)
 ```
@@ -48,6 +55,7 @@ titanic.df <- titanic.df %>%
 titanic.df <- titanic.df %>%
   mutate(embarked = ifelse(embarked == "S", 1, 0))
 ```
+
 ```{r}
 set.seed(107)
 inTrain <- createDataPartition(
@@ -83,8 +91,9 @@ my_training <- training %>%
   mutate(survived = as.factor(survived))%>%
   mutate(sex = as.factor(sex))%>%
   mutate(pclass = as.factor(pclass)) %>%
-  mutate(embarked = as.factor(embarked)) %>%
+  mutate(parch = as.factor(parch)) %>%
   mutate(sibsp = as.factor(sibsp)) %>%
+  mutate(embarked = as.factor(embarked)) %>%
   mutate(age = as.factor(age))
 model <- naiveBayes(survived ~ ., data = my_training)
 model
@@ -93,8 +102,9 @@ model
 ```{r}
 my_testing <- testing %>%
   mutate(sex = as.factor(sex)) %>%
-  mutate(pclass = as.factor(pclass))%>%
+  mutate(pclass = as.factor(pclass)) %>%
   mutate(embarked = as.factor(embarked)) %>%
+  mutate(parch = as.factor(parch)) %>%
   mutate(sibsp = as.factor(sibsp)) %>%
   mutate(age = as.factor(age))
 pred <- predict(model, my_testing)
