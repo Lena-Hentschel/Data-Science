@@ -152,5 +152,15 @@ pROC_obj <- roc(model.results.dt$survived,model.results.dt$`1`,
             print.auc=TRUE, show.thres=TRUE)
 ```
 Was sind die Unterschiede in der Performance der Algorithmen?
+
+Die Performance des 1. Algorhithmus und des Decision Trees liegen sehr nah beieinander. Der Naive Bayes Algorhithmus schneidet in der Performance schlechter ab und liegt unter den beiden schon genannten. 
+Die Kurve des ersten Algorhithmus ist deutlich wackeliger und unregelmäßiger, als die Kurve der anderen beiden. 
+Alle AUC Werte der Algorhithmen liegen über dem Wert 0.5. Somit entscheidet das System nicht zufällig. 
+
 Finden Sie Erklärungen dafür.
 
+Erklärungen für die unterschiedliche Performance könnten die Funktionsweisen der drei Algorhithmen bieten. 
+Der erstze Algorhitmus (Support Vector) kann braucht viele Daten und auch mit vielen verschiedenen Variablen rechnen. 
+
+Der Decicision Tree hat eigentlich eine geringe Performanceleistung ist allerdings sehr anfällig für Overfitting, was das ähnliche Ergebnis zum ersten Algorhithmus erklären könnte. 
+Der Naive Bayes Algorhithmus arbeitet meistens mit "wahr" und "falsch" Aussagen und kann somit auch mit geringen Datenmengen arbeiten. Es könnte sein, dass er durch die vielen Variablen in der Performance schlechter abschneidet. 
