@@ -88,3 +88,4 @@ labels=4, lines=0, main="K-means cluster plot")
 ```{r}
 table(books_wide$`User-ID`,k.means.fit$cluster)
 ```
+Die Bücher gehören vermutlich dem zweiten Cluster an. 
